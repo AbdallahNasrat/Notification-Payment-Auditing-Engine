@@ -1,3 +1,5 @@
+using DotNet_DependencyInjection_Lab.Multiple_Registeration_Task;
+
 namespace DotNet_DependencyInjection_Lab
 {
     public class Program
@@ -8,6 +10,9 @@ namespace DotNet_DependencyInjection_Lab
 
             //Grouping Services (Service Registration Extensions
             builder.Services.AddDIServices();
+
+            //Multiple Registrations
+            builder.Services.NotificationServices();
 
 
 
@@ -20,8 +25,13 @@ namespace DotNet_DependencyInjection_Lab
                 return value;
             });
 
+            app.MapGet("/MultipleRegistrations/{msg}", (string msg, NotificationDispatcher dispatcher) =>
+            {
+                return dispatcher.Dispatch(msg);
+            });
 
-            app.Run();
+
+            app.Run();  
         }
     }
 }
