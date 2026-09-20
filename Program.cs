@@ -1,4 +1,7 @@
+using DotNet_DependencyInjection_Lab;
+using DotNet_DependencyInjection_Lab.Keyed_Services;
 using DotNet_DependencyInjection_Lab.Multiple_Registeration_Task;
+using Microsoft.Extensions.Configuration;
 
 namespace DotNet_DependencyInjection_Lab
 {
@@ -14,6 +17,10 @@ namespace DotNet_DependencyInjection_Lab
             //Multiple Registrations
             builder.Services.NotificationServices();
 
+            //Keyed Services & Factory Installation
+            builder.Services.AddPaymentServices();
+
+
 
 
 
@@ -28,6 +35,11 @@ namespace DotNet_DependencyInjection_Lab
             app.MapGet("/MultipleRegistrations/{msg}", (string msg, NotificationDispatcher dispatcher) =>
             {
                 return dispatcher.Dispatch(msg);
+            });
+
+            app.MapGet("/keyedServices/{amount}", (decimal amount, IPaymentGateway paymentGateway) =>
+            {
+                return paymentGateway.ProcessPayment(amount);
             });
 
 
