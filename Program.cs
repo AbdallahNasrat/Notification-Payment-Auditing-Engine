@@ -1,4 +1,5 @@
 using DotNet_DependencyInjection_Lab;
+using DotNet_DependencyInjection_Lab.Database_initializerTask;
 using DotNet_DependencyInjection_Lab.Keyed_Services;
 using DotNet_DependencyInjection_Lab.Multiple_Registeration_Task;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,10 @@ namespace DotNet_DependencyInjection_Lab
 
             //Keyed Services & Factory Installation
             builder.Services.AddPaymentServices();
+
+            //DatabaseInit Task
+            builder.Services.AddSingleton<DatabaseInitializer>();
+            //builder.Services.AddSingleton(typeof(DatabaseInitializer)); another way
 
 
 
@@ -43,6 +48,12 @@ namespace DotNet_DependencyInjection_Lab
             });
 
 
+            //DatabaseInit Task - Create Scope
+            using (var scope = app.Services.CreateScope())
+            {
+                var init = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
+                init.Initializer();
+            }
             app.Run();  
         }
     }
