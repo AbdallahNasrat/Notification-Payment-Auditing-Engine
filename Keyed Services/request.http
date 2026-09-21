@@ -1,0 +1,5 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@baseUrl ="https://localhost:7274"
+
+### 
+GET https://localhost:7274/keyedServices/111
